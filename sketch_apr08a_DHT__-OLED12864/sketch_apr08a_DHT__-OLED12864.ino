@@ -1,5 +1,5 @@
 /*
- * DHT11+u8g2测试
+ * 温湿度OLED显示+自定义字库牛逼！！！
 */
 #include <dht11.h>
 dht11 DHT11;
@@ -10,8 +10,9 @@ dht11 DHT11;
 #include <Wire.h>//硬件 I2C (基于Arduino Wire库)
 
 /* 构造函数 */
-#define rst  2
-U8G2_SSD1306_128X64_NONAME_F_HW_I2C  u8g2(U8G2_R0 , rst);
+//#define rst  2
+//U8G2_SSD1306_128X64_NONAME_F_HW_I2C  u8g2(U8G2_R0 , rst);
+U8G2_SSD1306_128X64_NONAME_F_HW_I2C  u8g2(U8G2_R0);
 
 void setup() {
   Serial.begin(9600);  //设置波特率参数
@@ -52,16 +53,17 @@ void loop() {
   delay(500);//延时
 
   /*OLED屏幕打印*/
-  u8g2.setFont(u8g2_font_unifont_t_chinese1);
+//  u8g2.setFont(u8g2_font_liqingtang);
+  u8g2.setFont(u8g2_font_liqingtang);
   u8g2.setFontDirection(0); //旋转图像预设值
   u8g2.clearBuffer();
-  int tem = (float)DHT11.temperature;
-  u8g2.setCursor(0, 15);  //设置打印的光标位置
+  float tem = (float)DHT11.temperature;
+  u8g2.setCursor(0,16);  //设置打印的光标位置
   u8g2.print("温度 ");
   u8g2.print(tem);
   u8g2.print(" oC");
   
-  u8g2.setCursor(0, 35);  //设置打印的光标位置.
+  u8g2.setCursor(0,35);  //设置打印的光标位置.
   u8g2.print("湿度 ");
   u8g2.print((float)DHT11.humidity);
   u8g2.print(" %");
